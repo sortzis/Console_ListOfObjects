@@ -46,7 +46,7 @@ namespace Console_ListOfObjects
             set { _diets = value; }
         }
 
-        private bool Status
+        public bool Status
         {
             get { return _status; }
             set { _status = value; }

@@ -28,6 +28,7 @@ namespace Console_ListOfObjects
                 Console.WriteLine($"\tName: {animal.Name}");
                 Console.WriteLine($"\tLegs: {animal.Leg}");
                 Console.WriteLine($"\tDiet: {animal.Diets}");
+                Console.WriteLine($"\tExtinct?: {animal.Status}");
             }
 
         }
@@ -51,6 +52,8 @@ namespace Console_ListOfObjects
                 Console.Write("Diet (Carnivore, Herbivore, Omnivore?): ");
                 Enum.TryParse(Console.ReadLine().ToLower(), out Animal.Diet diet);
                 animal.Diets = diet;
+                Console.Write("Extinct? (true, false): ");
+                animal.Status = bool.Parse(Console.ReadLine());
 
                 animals.Add(animal);
 
