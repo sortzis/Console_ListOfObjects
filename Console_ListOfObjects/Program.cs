@@ -31,6 +31,7 @@ namespace Console_ListOfObjects
                 Console.WriteLine($"\tExtinct?: {animal.Status}");
             }
 
+            Console.ReadKey();
         }
 
         private static void AddAnimals(List<Animal> animals)
