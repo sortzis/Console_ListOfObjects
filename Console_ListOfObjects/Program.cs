@@ -25,7 +25,9 @@ namespace Console_ListOfObjects
 
             foreach (Animal animal in animals)
             {
-                Console.WriteLine($"Animal Name: {animal.Name}");
+                Console.WriteLine($"\tName: {animal.Name}");
+                Console.WriteLine($"\tLegs: {animal.Leg}");
+                Console.WriteLine($"\tDiet: {animal.Diets}");
             }
 
         }
