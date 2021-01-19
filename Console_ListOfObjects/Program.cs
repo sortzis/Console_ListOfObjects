@@ -13,7 +13,7 @@ namespace Console_ListOfObjects
         {
             List<Animal> animals = new List<Animal>();
 
-            DisplayMenuScreen(animals);
+            DisplayMenuScreen(animals):
         }
 
         static void DisplayMenuScreen(List<Animal> animals)
