@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Console_ListOfObjects
 {
@@ -12,8 +13,49 @@ namespace Console_ListOfObjects
         {
             List<Animal> animals = new List<Animal>();
 
-            AddAnimals(animals);
-            DisplayAnimals(animals);
+            DisplayMenuScreen(animals);
+        }
+
+        static void DisplayMenuScreen(List<Animal> animals)
+        {
+            bool quitApplication = false;
+            string menuChoice;
+
+            do
+            {
+                DisplayScreenHeader("Main Menu");
+
+                Console.WriteLine("a) Add Animals");
+                Console.WriteLine("b) Display Animals");
+                Console.WriteLine("c) Save to Data File");
+                Console.WriteLine("q) Quit Application");
+                menuChoice = Console.ReadLine().ToLower();
+
+                switch (menuChoice)
+                {
+                    case "a":
+                        AddAnimals(animals);
+                        break;
+
+                    case "b":
+                        DisplayAnimals(animals);
+                        break;
+
+                    case "c":
+                        SaveToFile(animals);
+                        break;
+
+                    case "q":
+                        quitApplication = true;
+                        break;
+
+                    default:
+                        Console.WriteLine();
+                        Console.WriteLine("Please enter a letter for the menu choice.");
+                        DisplayContinuePrompt();
+                        break;
+                }
+            } while (!quitApplication);
         }
 
         private static void DisplayAnimals(List<Animal> animals)
@@ -31,12 +73,13 @@ namespace Console_ListOfObjects
                 Console.WriteLine($"\tExtinct?: {animal.Status}");
             }
 
+            Console.WriteLine("Press Enter to Exit.");
             Console.ReadKey();
         }
 
         private static void AddAnimals(List<Animal> animals)
         {
-            Animal animal = new Animal();
+            Animal newAnimal = new Animal();
 
             Console.WriteLine();
             Console.WriteLine("\t\tAnimals Application");
@@ -47,16 +90,17 @@ namespace Console_ListOfObjects
             do
             {
                 Console.Write("Name: ");
-                animal.Name = Console.ReadLine();
+                newAnimal.Name = Console.ReadLine();
                 Console.Write("Legs: ");
-                animal.Leg = int.Parse(Console.ReadLine());
+                newAnimal.Leg = int.Parse(Console.ReadLine());
                 Console.Write("Diet (Carnivore, Herbivore, Omnivore?): ");
                 Enum.TryParse(Console.ReadLine().ToLower(), out Animal.Diet diet);
-                animal.Diets = diet;
+                newAnimal.Diets = diet;
                 Console.Write("Extinct? (true, false): ");
-                animal.Status = bool.Parse(Console.ReadLine());
+                newAnimal.Status = bool.Parse(Console.ReadLine());
 
-                animals.Add(animal);
+                animals.Add(newAnimal);
+
 
                 Console.Write("Add more animals?:");
                 string userResponse = Console.ReadLine().ToLower();
@@ -68,5 +112,78 @@ namespace Console_ListOfObjects
             } while (!doneAdding);
 
         }
+
+        private static void SaveToFile(List<Animal> animals)
+        {
+            DisplayScreenHeader("Save animal info to data file");
+
+            DisplayContinuePrompt();
+
+            string[] animalsString = new string[animals.Count];
+
+            for (int index = 0; index < animals.Count; index++)
+            {
+                string animalString =
+                    animals[index].Name + "," +
+                    animals[index].Leg + "," +
+                    animals[index].Diets + "," +
+                    animals[index].Status;
+
+                animalsString[index] = animalString;
+            }
+
+            File.WriteAllLines("Data\\Data.txt", animalsString);
+        }
+
+        #region HELPER METHODS
+
+        /// <summary>
+        /// display welcome screen
+        /// </summary>
+        static void DisplayWelcomeScreen()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("\t\tAnimal Application");
+            Console.WriteLine();
+
+            DisplayContinuePrompt();
+        }
+
+        /// <summary>
+        /// display closing screen
+        /// </summary>
+        static void DisplayClosingScreen()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("\t\tThank you for using the my Animal Application!");
+            Console.WriteLine();
+
+            DisplayContinuePrompt();
+        }
+
+        /// <summary>
+        /// display continue prompt
+        /// </summary>
+        static void DisplayContinuePrompt()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
+
+        /// <summary>
+        /// display screen header
+        /// </summary>
+        static void DisplayScreenHeader(string headerText)
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine("\t\t" + headerText);
+            Console.WriteLine();
+        }
+
+        #endregion
     }
 }
